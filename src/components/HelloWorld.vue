@@ -1,94 +1,69 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div id="issues">
+    <h1>Latest Issues</h1>
+    <div>
+      Repository: <input type="text" v-model="repository">
+    </div>
+    <div>
+      <input type="text" v-model="searchText">
+      <div v-show="hasIssue">
+        <div v-for="issue in filtered_issues" :key="issue.id"
+            class="issue-default">
+          <a :href="issue.html_url" target="_blank">
+            {{issue.title}}
+          </a><br/>
+          <span>#{{issue.number}} at {{issue.updated_at | formatDate}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+// Open issues from vuejs/vuejs.org repository.
+const ISSUES = 'https://api.github.com/repos/[R]/issues?state=open'
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      repository: 'vuejs/vuejs.org',
+      searchText: '',
+      msg: 'Welcome to Your Vue.js App',
+      issues: []
+    }
+  },
+  created: function () {
+    this.fetchData()
+  },
+  watch: {
+    repository: 'fetchData'
+  },
+  filters: {
+    formatDate: function (v) {
+      return v.replace(/T|Z/g, ' ')
+    }
+  },
+  computed: {
+    hasIssue: function () {
+      return this.issues.length > 0
+    },
+    filtered_issues: function () {
+      let query = this.searchText
+      return this.issues.filter(function (issue) {
+        return issue.title.indexOf(query) > -1
+      })
+    }
+  },
+  methods: {
+    fetchData: function () {
+      var xhr = new XMLHttpRequest()
+      var self = this
+      xhr.open('GET', ISSUES.replace('[R]', self.repository))
+      xhr.onload = function () {
+        self.issues = JSON.parse(xhr.responseText)
+      }
+      xhr.send()
     }
   }
 }
