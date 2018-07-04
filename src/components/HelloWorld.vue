@@ -1,21 +1,21 @@
 <template>
   <div id="issues">
-    <h1>Latest Issues</h1>
-    <div>
-      Repository: <input type="text" v-model="repository">
-    </div>
-    <div>
-      <input type="text" v-model="searchText">
-      <div v-show="hasIssue">
-        <div v-for="issue in filtered_issues" :key="issue.id"
-            class="issue-default">
-          <a :href="issue.html_url" target="_blank">
-            {{issue.title}}
-          </a><br/>
-          <span>#{{issue.number}} at {{issue.updated_at | formatDate}}</span>
-        </div>
+    <h1>
+      Repository: {{repository}}
+    </h1>
+    <nav class="panel">
+      <p class="panel-heading">
+        Latest Issues
+      </p>
+      <div class="panel-block" v-show="hasIssue">
+        <input class="input" type="text" v-model="searchText" placeholder="Search">
       </div>
-    </div>
+      <p v-for="issue in filtered_issues" :key="issue.id" class="panel-block">
+        <span>#{{issue.number}} </span>
+        <a :href="issue.html_url" target="_blank">{{issue.title}}</a>
+        <span> at {{issue.updated_at | formatDate}}</span>
+      </p>
+    </nav>
   </div>
 </template>
 
@@ -73,14 +73,7 @@ export default {
 <style scoped lang="scss">
 h1, h2 {
   font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
+  margin-bottom: 0.5rem;
 }
 a {
   color: #42b983;
