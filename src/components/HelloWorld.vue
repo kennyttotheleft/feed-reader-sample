@@ -1,8 +1,6 @@
 <template>
   <div id="issues">
-    <h1>
-      Repository: {{repository}}
-    </h1>
+    <h1>Repository: {{repository}}</h1>
     <nav class="panel">
       <p class="panel-heading">
         Latest Issues

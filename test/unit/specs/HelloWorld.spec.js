@@ -6,6 +6,6 @@ describe('HelloWorld.vue', () => {
     const Constructor = Vue.extend(HelloWorld)
     const vm = new Constructor().$mount()
     expect(vm.$el.querySelector('#issues h1').textContent)
-      .toEqual('Latest Issues')
+      .toEqual('Repository: vuejs/vuejs.org')
   })
 })
