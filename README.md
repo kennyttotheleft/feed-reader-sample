@@ -1,4 +1,7 @@
-# feed-reader
+[![Build Status](https://travis-ci.org/tanakaoriginal/feed-reader-sample.svg?branch=master)](https://travis-ci.org/tanakaoriginal/feed-reader-sample)
+[![Coverage Status](https://coveralls.io/repos/github/tanakaoriginal/feed-reader-sample/badge.svg?branch=master)](https://coveralls.io/github/tanakaoriginal/feed-reader-sample?branch=master)
+
+# Simple Feed Reader App
 
 > A Vue.js project
 
